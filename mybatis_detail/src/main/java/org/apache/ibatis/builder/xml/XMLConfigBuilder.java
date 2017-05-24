@@ -112,6 +112,10 @@ public class XMLConfigBuilder extends BaseBuilder {
     return configuration;
   }
 
+  /**
+   * 解析Configuration节点
+   * @param root        父节点
+   */
   private void parseConfiguration(XNode root) {
     try {
       //issue #117 read properties first
