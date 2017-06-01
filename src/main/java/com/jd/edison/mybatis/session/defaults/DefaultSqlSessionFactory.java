@@ -43,7 +43,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   }
 
   public SqlSession openSession() {
-    return null;
+    return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
   }
 
   public SqlSession openSession(boolean autoCommit) {

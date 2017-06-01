@@ -13,6 +13,7 @@ public class Demo {
     public static void main(String[] args) {;
         try {
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader(""));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
