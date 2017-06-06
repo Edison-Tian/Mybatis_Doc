@@ -15,9 +15,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.24</version>
+		</dependency>
+		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<scope>provided</scope>
+			<!--<scope>provided</scope>-->
 			<optional>true</optional>
             <version>3.22.0-CR1</version>
 		</dependency>
@@ -76,8 +81,41 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>doc/</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+		<defaultGoal>package</defaultGoal>
 		<plugins>
 			<!-- compiler插件参数设置，指定编码? -->
 			<plugin>
@@ -98,9 +136,6 @@
 				<version>2.2</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
-					<nonFilteredFileExtensions>
-						<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
-					</nonFilteredFileExtensions>
 				</configuration>
 			</plugin>
 			<!-- mvn javadoc:jar -->

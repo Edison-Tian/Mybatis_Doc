@@ -10,10 +10,10 @@ import java.io.IOException;
  * @author 田继东 on 2017/5/24.
  */
 public class Demo {
-    public static void main(String[] args) {;
+    public static void main(String[] args) {
         try {
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader(""));
-
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader("mybatis-config.xml"));
+            sqlSessionFactory.openSession().select(null,null);
         } catch (IOException e) {
             e.printStackTrace();
         }
