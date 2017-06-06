@@ -44,9 +44,11 @@ import org.xml.sax.SAXParseException;
  * @author Clinton Begin
  */
 public class XPathParser {
-
+  //解析后的所有信息
   private Document document;
+  //对XML中的DTD是否进行校验
   private boolean validation;
+  //自定义的DTD解析器，以防止在网络不可用时，无法解析DTD
   private EntityResolver entityResolver;
   private Properties variables;
   private XPath xpath;
@@ -241,10 +243,19 @@ public class XPathParser {
     }
   }
 
+  /**
+   * 解析配置文件
+   * 将配置文件解析为Document对象
+   * <p>
+   *     <strong>
+   *         由于此方法依赖于validation和entityResolver这2个属性，所以必须在commonConstructor之后才可以调用
+   *         如果在这两个属性没有设置前就调用这个函数，就可能会导致这个类内部属性冲突
+   *     </strong>
+   * </p>
+   * @param inputSource       配置文件输入流
+   * @return                  解析结果
+   */
   private Document createDocument(InputSource inputSource) {
-    // important: this must only be called AFTER common constructor
-    // 那为什么必须在调用commonConstructor函数后才能调用这个函数呢？因为这个函数里面用到了两个属性：validation和entityResolver
-	// 如果在这两个属性没有设置前就调用这个函数，就可能会导致这个类内部属性冲突
     try {
     	//创建document时用到了两个类：DocumentBuilderFactory和DocumentBuilder。
     	//DocumentBuilderFactory.newInstance()创建DocumentBuilderFactory实现类的对象，它会通过一下方式来查找实现类：
@@ -283,6 +294,7 @@ public class XPathParser {
         public void warning(SAXParseException exception) throws SAXException {
         }
       });
+      //解析XML 文件
       return builder.parse(inputSource);
     } catch (Exception e) {
       throw new BuilderException("Error creating document instance.  Cause: " + e, e);

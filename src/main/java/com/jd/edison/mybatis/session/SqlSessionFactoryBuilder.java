@@ -66,6 +66,13 @@ public class SqlSessionFactoryBuilder {
     return build(reader, null, properties);
   }
 
+  /**
+   * 构建SqlSessionFactory
+   * @param reader      配置文件
+   * @param environment 数据源信息
+   * @param properties  配置信息
+   * @return            SqlSessionFactory
+   */
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
       //2. 创建XMLConfigBuilder对象用来解析XML配置文件，生成Configuration对象

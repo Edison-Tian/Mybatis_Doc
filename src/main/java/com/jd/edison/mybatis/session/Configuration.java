@@ -175,6 +175,10 @@ public class Configuration {
     this.environment = environment;
   }
 
+  /**
+   * 构造函数
+   * 注册默认别名类型
+   */
   public Configuration() {
 	 //事务类型
     typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);

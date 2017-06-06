@@ -123,6 +123,13 @@ public class Resources {
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
    */
+
+  /**
+   * 将输入的文件地址，以Properties形式返回
+   * @param resource  The resource to find
+   * @return          The resource
+   * @throws java.io.IOException If the resource cannot be found or read
+   */
   public static Properties getResourceAsProperties(String resource) throws IOException {
     Properties props = new Properties();
     InputStream in = getResourceAsStream(resource);
@@ -234,10 +241,8 @@ public class Resources {
     }
     return reader;
   }
-
-  /*
-   * Gets a URL as a Properties object
-   *
+  /**
+   * 将输入的URL地址，以Properties形式返回
    * @param urlString - the URL to get
    * @return A Properties object with the data from the URL
    * @throws java.io.IOException If the resource cannot be found or read
