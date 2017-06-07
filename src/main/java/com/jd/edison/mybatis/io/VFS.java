@@ -198,7 +198,7 @@ public abstract class VFS {
    * @throws IOException If I/O errors occur
    */
   public List<String> list(String path) throws IOException {
-    List<String> names = new ArrayList<String>();
+    List<String> names = new ArrayList<>();
     for (URL url : getResources(path)) {
       names.addAll(list(url, path));
     }

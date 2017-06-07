@@ -34,6 +34,7 @@ import com.jd.edison.mybatis.io.Resources;
 
 /**
  * 类型与别名注册器
+ *
  * @author Clinton Begin
  */
 public class TypeAliasRegistry {
@@ -127,7 +128,7 @@ public class TypeAliasRegistry {
     }
 
     public void registerAliases(String packageName, Class<?> superType) {
-        ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<Class<?>>();
+        ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
         resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
         Set<Class<? extends Class<?>>> typeSet = resolverUtil.getClasses();
         for (Class<?> type : typeSet) {

@@ -215,8 +215,13 @@ public class XMLConfigBuilder extends BaseBuilder {
 
     /**
      * 读取Properties节点信息
-     * <p>1，resource属性和url属性不可同时存在</p>
-     * <p>2，</p>
+     * 1，解析XML本身的property信息
+     * 2，解析Resources/URL对应的配置信息
+     * 3，将初始化时的配置信息（Configuration中的配置信息）
+     *
+     * 将三者配置信息进行汇总，然后更新两个地方
+     * 1，XPathParser
+     * 2，Configuration
      * @param context       父节点
      * @throws Exception    读取失败时会抛出异常
      */

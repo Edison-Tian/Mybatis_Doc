@@ -54,7 +54,7 @@ public class DefaultVFS extends VFS {
   public List<String> list(URL url, String path) throws IOException {
     InputStream is = null;
     try {
-      List<String> resources = new ArrayList<String>();
+      List<String> resources = new ArrayList<>();
 
       // First, try to find the URL of a JAR file containing the requested resource. If a JAR
       // file is found, then we'll list child resources by reading the JAR.
@@ -67,7 +67,7 @@ public class DefaultVFS extends VFS {
         resources = listResources(new JarInputStream(is), path);
       }
       else {
-        List<String> children = new ArrayList<String>();
+        List<String> children = new ArrayList<>();
         try {
           if (isJar(url)) {
             // Some versions of JBoss VFS might give a JAR stream even if the resource
@@ -96,7 +96,7 @@ public class DefaultVFS extends VFS {
              */
             is = url.openStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            List<String> lines = new ArrayList<String>();
+            List<String> lines = new ArrayList<>();
             for (String line; (line = reader.readLine()) != null;) {
               if (log.isDebugEnabled()) {
                 log.debug("Reader entry: " + line);

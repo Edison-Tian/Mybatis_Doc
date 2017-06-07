@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2015 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2015 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.jd.edison.mybatis.session;
 
@@ -54,82 +54,84 @@ import com.jd.edison.mybatis.exceptions.ExceptionFactory;
  */
 public class SqlSessionFactoryBuilder {
 
-  public SqlSessionFactory build(Reader reader) {
-    return build(reader, null, null);
-  }
-
-  public SqlSessionFactory build(Reader reader, String environment) {
-    return build(reader, environment, null);
-  }
-
-  public SqlSessionFactory build(Reader reader, Properties properties) {
-    return build(reader, null, properties);
-  }
-
-  /**
-   * 构建SqlSessionFactory
-   * @param reader      配置文件
-   * @param environment 数据源信息
-   * @param properties  配置信息
-   * @return            SqlSessionFactory
-   */
-  public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
-    try {
-      //2. 创建XMLConfigBuilder对象用来解析XML配置文件，生成Configuration对象
-      XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);
-      //3. 将XML配置文件内的信息解析成Java对象Configuration对象，根据Configuration对象创建出SqlSessionFactory对象  
-      return build(parser.parse());
-    } catch (Exception e) {
-      throw ExceptionFactory.wrapException("Error building SqlSession.", e);
-    } finally {
-      ErrorContext.instance().reset();
-      try {
-        reader.close();
-      } catch (IOException e) {
-        // Intentionally ignore. Prefer previous error.
-      }
+    public SqlSessionFactory build(Reader reader) {
+        return build(reader, null, null);
     }
-  }
 
-  public SqlSessionFactory build(InputStream inputStream) {
-    return build(inputStream, null, null);
-  }
-
-  public SqlSessionFactory build(InputStream inputStream, String environment) {
-    return build(inputStream, environment, null);
-  }
-
-  public SqlSessionFactory build(InputStream inputStream, Properties properties) {
-    return build(inputStream, null, properties);
-  }
-
-  public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
-    try {
-     //1. XMLConfigBuilder会将XML配置文件的信息转换为Document对象，
-     //	 而XML配置定义文件DTD转换成XMLMapperEntityResolver对象，
-      //然后将二者封装到XpathParser对象中，XpathParser的作用是提供根据Xpath表达式获取基本的DOM节点Node信息的操作
-      XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);
-      return build(parser.parse());
-    } catch (Exception e) {
-      throw ExceptionFactory.wrapException("Error building SqlSession.", e);
-    } finally {
-      ErrorContext.instance().reset();
-      try {
-        inputStream.close();
-      } catch (IOException e) {
-        // Intentionally ignore. Prefer previous error.
-      }
+    public SqlSessionFactory build(Reader reader, String environment) {
+        return build(reader, environment, null);
     }
-  }
-  
-  /**
-   * MyBatis内部通过Configuration对象来创建SqlSessionFactory,
-   * 用户也可以自己通过API构造好Configuration对象，调用此方法创建SqlSessionFactory  
-   * @param config
-   * @return
-   */
-  public SqlSessionFactory build(Configuration config) {
-    return new DefaultSqlSessionFactory(config);
-  }
+
+    public SqlSessionFactory build(Reader reader, Properties properties) {
+        return build(reader, null, properties);
+    }
+
+    /**
+     * 构建SqlSessionFactory
+     *
+     * @param reader      配置文件
+     * @param environment 数据源信息
+     * @param properties  配置信息
+     * @return SqlSessionFactory
+     */
+    public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
+        try {
+            //2. 创建XMLConfigBuilder对象用来解析XML配置文件，生成Configuration对象
+            XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);
+            //3. 将XML配置文件内的信息解析成Java对象Configuration对象，根据Configuration对象创建出SqlSessionFactory对象
+            return build(parser.parse());
+        } catch (Exception e) {
+            throw ExceptionFactory.wrapException("Error building SqlSession.", e);
+        } finally {
+            ErrorContext.instance().reset();
+            try {
+                reader.close();
+            } catch (IOException e) {
+                // Intentionally ignore. Prefer previous error.
+            }
+        }
+    }
+
+    public SqlSessionFactory build(InputStream inputStream) {
+        return build(inputStream, null, null);
+    }
+
+    public SqlSessionFactory build(InputStream inputStream, String environment) {
+        return build(inputStream, environment, null);
+    }
+
+    public SqlSessionFactory build(InputStream inputStream, Properties properties) {
+        return build(inputStream, null, properties);
+    }
+
+    public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
+        try {
+            //1. XMLConfigBuilder会将XML配置文件的信息转换为Document对象，
+            //	 而XML配置定义文件DTD转换成XMLMapperEntityResolver对象，
+            //然后将二者封装到XpathParser对象中，XpathParser的作用是提供根据Xpath表达式获取基本的DOM节点Node信息的操作
+            XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);
+            return build(parser.parse());
+        } catch (Exception e) {
+            throw ExceptionFactory.wrapException("Error building SqlSession.", e);
+        } finally {
+            ErrorContext.instance().reset();
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                // Intentionally ignore. Prefer previous error.
+            }
+        }
+    }
+
+    /**
+     * MyBatis内部通过Configuration对象来创建SqlSessionFactory,
+     * 用户也可以自己通过API构造好Configuration对象，调用此方法创建SqlSessionFactory
+     *
+     * @param config
+     * @return
+     */
+    public SqlSessionFactory build(Configuration config) {
+        return new DefaultSqlSessionFactory(config);
+    }
 
 }
