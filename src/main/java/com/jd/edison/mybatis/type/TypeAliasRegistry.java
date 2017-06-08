@@ -123,10 +123,19 @@ public class TypeAliasRegistry {
         }
     }
 
+	/**
+	 * 根据包名注册别名
+	 * @param packageName	包名
+	 */
     public void registerAliases(String packageName) {
         registerAliases(packageName, Object.class);
     }
 
+	/**
+	 * 注册别名
+	 * @param packageName	包名
+	 * @param superType		父类类型
+	 */
     public void registerAliases(String packageName, Class<?> superType) {
         ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
         resolverUtil.find(new ResolverUtil.IsA(superType), packageName);

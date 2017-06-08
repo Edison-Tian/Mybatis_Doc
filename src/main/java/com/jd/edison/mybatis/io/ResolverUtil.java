@@ -232,9 +232,13 @@ public class ResolverUtil<T> {
     }
 
     /**
-     * Converts a Java package name to a path that can be looked up with a call to
-     * {@link ClassLoader#getResources(String)}.
+     * <p>
+	 *     Converts a Java package name to a path that can be looked up with a call to {@link ClassLoader#getResources(String)}.
+	 * </p>
      *
+	 * <p>
+	 *	   把一个Java包名转换为以斜杠分割的文件路径，使得可以被ClassLoader.getResources使用
+	 * </p>
      * @param packageName The Java package name to convert to a path
      */
     protected String getPackagePath(String packageName) {
