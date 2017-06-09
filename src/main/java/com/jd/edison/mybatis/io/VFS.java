@@ -222,7 +222,8 @@ public abstract class VFS {
 	 */
 	public List<String> list(String path) throws IOException {
 		List<String> names = new ArrayList<>();
-		for (URL url : getResources(path)) {
+		List<URL> results = getResources(path);
+		for (URL url : results) {
 			names.addAll(list(url, path));
 		}
 		return names;

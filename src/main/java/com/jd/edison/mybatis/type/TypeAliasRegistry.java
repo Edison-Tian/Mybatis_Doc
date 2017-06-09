@@ -102,6 +102,16 @@ public class TypeAliasRegistry {
         registerAlias("ResultSet", ResultSet.class);
     }
 
+    /**
+     * 通过别名来查找类信息
+     * <p>
+     *     1，先从别名池中查找
+     *     2，若别名池差找不到，则直接通过Classloader来查找
+     * </p>
+     * @param string        别名（类全名）
+     * @param <T>           类泛型
+     * @return              查找结果
+     */
     @SuppressWarnings("unchecked")
     // throws class cast exception as well if types cannot be assigned
     public <T> Class<T> resolveAlias(String string) {
@@ -124,7 +134,7 @@ public class TypeAliasRegistry {
     }
 
 	/**
-	 * 根据包名注册别名
+	 * 根据包名批量注册别名
 	 * @param packageName	包名
 	 */
     public void registerAliases(String packageName) {
@@ -132,7 +142,10 @@ public class TypeAliasRegistry {
     }
 
 	/**
-	 * 注册别名
+	 * 根据父类类型有选择行的扫描包下的类型进行批量注册别名
+     * <p>
+     *      按superType进行过滤
+     * </p>
 	 * @param packageName	包名
 	 * @param superType		父类类型
 	 */

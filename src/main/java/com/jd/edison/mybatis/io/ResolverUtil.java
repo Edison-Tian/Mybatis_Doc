@@ -65,11 +65,19 @@ public class ResolverUtil<T> {
     /**
      * A simple interface that specifies how to test classes to determine if they
      * are to be included in the results produced by the ResolverUtil.
+     *
+     * <p>
+     *     一个简易过滤器
+     * </p>
      */
     public static interface Test {
         /**
          * Will be called repeatedly with candidate classes. Must return True if a class
          * is to be included in the results, false otherwise.
+         *
+         * <p>
+         *     是否匹配
+         * </p>
          */
         boolean matches(Class<?> type);
     }
@@ -77,16 +85,33 @@ public class ResolverUtil<T> {
     /**
      * A Test that checks to see if each class is assignable to the provided class. Note
      * that this test will match the parent type itself if it is presented for matching.
+     * <p>
+     *     简易过滤器的实现类
+     * </p>
      */
     public static class IsA implements Test {
         private Class<?> parent;
 
         /** Constructs an IsA test using the supplied Class as the parent class/interface. */
+        /**
+         * 父类类型
+         * @param parentType    父类类型
+         */
         public IsA(Class<?> parentType) {
             this.parent = parentType;
         }
 
         /** Returns true if type is assignable to the parent type supplied in the constructor. */
+        /**
+         * <p>
+         *     判断是否匹配
+         * </p>
+         * <p>
+         *     匹配条件：是否是指定的父类的子类
+         * </p>
+         * @param type      指定类型
+         * @return          判断结果
+         */
         @Override
         public boolean matches(Class<?> type) {
             //parent类是type类的父类，是则true,否则false;
@@ -124,7 +149,7 @@ public class ResolverUtil<T> {
     }
 
     /** The set of matches being accumulated. */
-    private Set<Class<? extends T>> matches = new HashSet<Class<? extends T>>();
+    private Set<Class<? extends T>> matches = new HashSet<>();
 
     /**
      * The ClassLoader to use when looking for classes. If null then the ClassLoader returned
@@ -210,17 +235,28 @@ public class ResolverUtil<T> {
      * true the class is retained.  Accumulated classes can be fetched by calling
      * {@link #getClasses()}.
      *
+     * <p>
+     *     1，扫描packageName下的类型
+     * </p>
+     * <p>
+     *     2，使用{@link Test}进行过滤
+     * </p>
+     *
      * @param test an instance of {@link Test} that will be used to filter classes
      * @param packageName the name of the package from which to start scanning for
      *        classes, e.g. {@code net.sourceforge.stripes}
      */
     public ResolverUtil<T> find(Test test, String packageName) {
+        //1，把com.jd.xxx 改为 com/jd/xxx
         String path = getPackagePath(packageName);
 
         try {
+            //2，按照新地址查找类路径
             List<String> children = VFS.getInstance().list(path);
             for (String child : children) {
+                //3，过滤非class
                 if (child.endsWith(".class")) {
+                    //4，按照过滤器进行过滤
                     addIfMatching(test, child);
                 }
             }
@@ -249,6 +285,7 @@ public class ResolverUtil<T> {
      * Add the class designated by the fully qualified class name provided to the set of
      * resolved classes if and only if it is approved by the Test supplied.
      *
+     * 通过调用{@link Test#matches(Class)} 来判断是否匹配，如果匹配的话，加入到{@link #matches}中
      * @param test the test used to determine if the class matches
      * @param fqn the fully qualified name of a class
      */

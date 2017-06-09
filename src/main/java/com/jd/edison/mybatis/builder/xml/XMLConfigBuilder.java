@@ -184,6 +184,11 @@ public class XMLConfigBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 解析插件元素
+	 * @param parent		父节点
+	 * @throws Exception
+	 */
 	private void pluginElement(XNode parent) throws Exception {
 		if (parent != null) {
 			for (XNode child : parent.getChildren()) {
@@ -196,6 +201,11 @@ public class XMLConfigBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 与解析插件类似，先从别名池中查找，查找不到的话，再通过Classloader来查找
+	 * @param context
+	 * @throws Exception
+	 */
 	private void objectFactoryElement(XNode context) throws Exception {
 		if (context != null) {
 			String type = context.getStringAttribute("type");

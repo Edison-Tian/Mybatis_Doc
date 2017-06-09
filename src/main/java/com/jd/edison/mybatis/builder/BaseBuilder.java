@@ -145,6 +145,11 @@ public abstract class BaseBuilder {
         return handler;
     }
 
+    /**
+     * 通过别名来查到
+     * @param alias     别名
+     * @return          查找结果
+     */
     protected Class<?> resolveAlias(String alias) {
         return typeAliasRegistry.resolveAlias(alias);
     }
