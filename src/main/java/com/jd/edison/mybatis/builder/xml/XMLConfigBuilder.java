@@ -216,6 +216,11 @@ public class XMLConfigBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 解析objectWrapperFactory
+	 * @param context
+	 * @throws Exception
+	 */
 	private void objectWrapperFactoryElement(XNode context) throws Exception {
 		if (context != null) {
 			String type = context.getStringAttribute("type");

@@ -20,6 +20,7 @@
             <property name="a" value="123"/>
         </plugin>
     </plugins>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -31,5 +32,6 @@
             </dataSource>
         </environment>
     </environments>
+
 
 </configuration>
