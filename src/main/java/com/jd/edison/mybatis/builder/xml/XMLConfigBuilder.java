@@ -400,6 +400,11 @@ public class XMLConfigBuilder extends BaseBuilder {
 		throw new BuilderException("Environment declaration requires a DataSourceFactory.");
 	}
 
+	/**
+	 * 解析TypeHandler
+	 * @param parent		父节点
+	 * @throws Exception	异常
+	 */
 	private void typeHandlerElement(XNode parent) throws Exception {
 		if (parent != null) {
 			for (XNode child : parent.getChildren()) {
