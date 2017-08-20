@@ -18,6 +18,8 @@ package com.jd.edison.mybatis.builder;
 import com.jd.edison.mybatis.cache.Cache;
 
 /**
+ * 参照缓存解析器
+ * 用来处理<cache-ref/>
  * @author Clinton Begin
  */
 public class CacheRefResolver {
@@ -29,6 +31,10 @@ public class CacheRefResolver {
     this.cacheRefNamespace = cacheRefNamespace;
   }
 
+	/**
+	 * 解析参照缓存
+	 * @return		目标参照缓存
+	 */
   public Cache resolveCacheRef() {
     return assistant.useCacheRef(cacheRefNamespace);
   }

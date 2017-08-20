@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.fms.plough.dao.cg.CGDao">
+	<insert id="insert" parameterType="com.jd.fms.plough.domain.po.cg.CGPo">
+		INSERT INTO t_cg_${po.tableSuffix} (
+			rf_id,
+			rf_type,
+			type_id,
+			busi_type,
+			busi_no,
+			churu,
+			vender_id,
+			s_id,
+			to_s_id,
+			sys,
+			sign_tag,
+			busi_date,
+			create_by)
+		VALUES
+			(#{po.rfId},
+				#{po.rfType},
+				#{po.typeId},
+				#{po.busiType},
+				#{po.busiNo},
+				#{po.churu},
+				#{po.venderId},
+				#{po.sId},
+				#{po.toSId},
+				#{po.sys},
+				#{po.signTag},
+			 #{po.busiDate},
+			#{po.createBy})
+	</insert>
+</mapper>

@@ -51,6 +51,7 @@ import com.jd.edison.mybatis.session.Configuration;
 
 /**
  * mapper xml关联解析
+ *
  * @author Clinton Begin
  */
 public class MapperBuilderAssistant extends BaseBuilder {
@@ -104,6 +105,14 @@ public class MapperBuilderAssistant extends BaseBuilder {
 		return currentNamespace + "." + base;
 	}
 
+	/**
+	 * 使用参照缓存（使用其他命名空间中的缓存）
+	 * 将本助理中的缓存替换为参照缓存
+	 *
+	 * @param namespace 参照缓存的命名空间
+	 * @return 参照缓存
+	 * @throws IncompleteElementException 当找不到目标缓存时会抛出该异常
+	 */
 	public Cache useCacheRef(String namespace) {
 		if (namespace == null) {
 			throw new BuilderException("cache-ref element requires a namespace attribute.");
@@ -122,6 +131,18 @@ public class MapperBuilderAssistant extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 使用新缓存
+	 *
+	 * @param typeClass		用户自定义的缓存实现
+	 * @param evictionClass	回收算法
+	 * @param flushInterval	过期时间
+	 * @param size			缓存的对象数量
+	 * @param readWrite		只读
+	 * @param blocking
+	 * @param props
+	 * @return
+	 */
 	public Cache useNewCache(Class<? extends Cache> typeClass,
 							 Class<? extends Cache> evictionClass,
 							 Long flushInterval,
@@ -129,8 +150,11 @@ public class MapperBuilderAssistant extends BaseBuilder {
 							 boolean readWrite,
 							 boolean blocking,
 							 Properties props) {
+		//判断具体缓存类型
 		typeClass = valueOrDefault(typeClass, PerpetualCache.class);
+		//判断具体回收算法
 		evictionClass = valueOrDefault(evictionClass, LruCache.class);
+
 		Cache cache = new CacheBuilder(currentNamespace)
 				.implementation(typeClass)
 				.addDecorator(evictionClass)
@@ -153,6 +177,18 @@ public class MapperBuilderAssistant extends BaseBuilder {
 		return parameterMap;
 	}
 
+	/**
+	 * 构建参数映射
+	 * @param parameterType
+	 * @param property
+	 * @param javaType
+	 * @param jdbcType
+	 * @param resultMap
+	 * @param parameterMode
+	 * @param typeHandler
+	 * @param numericScale
+	 * @return
+	 */
 	public ParameterMapping buildParameterMapping(
 			Class<?> parameterType,
 			String property,
@@ -302,6 +338,14 @@ public class MapperBuilderAssistant extends BaseBuilder {
 		return statement;
 	}
 
+	/**
+	 * 判断是使用自定义的缓存还是默认的缓存
+	 *
+	 * @param value        自定义缓存
+	 * @param defaultValue 默认缓存
+	 * @param <T>          缓存泛型
+	 * @return 判断结果
+	 */
 	private <T> T valueOrDefault(T value, T defaultValue) {
 		return value == null ? defaultValue : value;
 	}
@@ -478,7 +522,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
 		return javaType;
 	}
 
-	/** Backward compatibility signature */
+	/**
+	 * Backward compatibility signature
+	 */
 	public ResultMapping buildResultMapping(
 			Class<?> resultType,
 			String property,
@@ -505,7 +551,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
 		return configuration.getLanguageRegistry().getDriver(langClass);
 	}
 
-	/** Backward compatibility signature */
+	/**
+	 * Backward compatibility signature
+	 */
 	public MappedStatement addMappedStatement(
 			String id,
 			SqlSource sqlSource,

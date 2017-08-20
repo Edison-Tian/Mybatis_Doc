@@ -89,6 +89,9 @@ public class XMLMapperBuilder extends BaseBuilder {
 		this.resource = resource;
 	}
 
+	/**
+	 * 解析Mapper
+	 */
 	public void parse() {
 		if (!configuration.isResourceLoaded(resource)) {
 			configurationElement(parser.evalNode("/mapper"));
@@ -106,9 +109,9 @@ public class XMLMapperBuilder extends BaseBuilder {
 	}
 
 	/**
-	 * mapper解析
+	 * 解析Mapper配置信息
 	 *
-	 * @param context
+	 * @param context mapper节点
 	 */
 	private void configurationElement(XNode context) {
 		try {
@@ -117,9 +120,13 @@ public class XMLMapperBuilder extends BaseBuilder {
 				throw new BuilderException("Mapper's namespace cannot be empty");
 			}
 			builderAssistant.setCurrentNamespace(namespace);
+			//解析参照缓存
 			cacheRefElement(context.evalNode("cache-ref"));
+			//解析缓存
 			cacheElement(context.evalNode("cache"));
+			//解析parameterMap(已废弃)
 			parameterMapElement(context.evalNodes("/mapper/parameterMap"));
+			//解析resultMap
 			resultMapElements(context.evalNodes("/mapper/resultMap"));
 			sqlElement(context.evalNodes("/mapper/sql"));
 			buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
@@ -191,6 +198,11 @@ public class XMLMapperBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 解析参照缓存节点
+	 *
+	 * @param context 参照缓存节点
+	 */
 	private void cacheRefElement(XNode context) {
 		if (context != null) {
 			configuration.addCacheRef(builderAssistant.getCurrentNamespace(), context.getStringAttribute("namespace"));
@@ -198,6 +210,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 			try {
 				cacheRefResolver.resolveCacheRef();
 			} catch (IncompleteElementException e) {
+				//如果抛出该异常，说明参照缓存尚未被解析，所以先放在一个容器内，打标记录上。
 				configuration.addIncompleteCacheRef(cacheRefResolver);
 			}
 		}
@@ -210,7 +223,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 	 * 如果用mybatis做select查询，用hibernate做insert/update/delete，hibernate对数据的修改，
 	 * 并不会刷新mybatis的缓存。
 	 *
-	 * @param context
+	 * @param context		缓存节点
 	 * @throws Exception
 	 */
 	private void cacheElement(XNode context) throws Exception {
@@ -233,13 +246,18 @@ public class XMLMapperBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 解析parameterMap
+	 * @param list
+	 * @throws Exception
+	 */
 	private void parameterMapElement(List<XNode> list) throws Exception {
 		for (XNode parameterMapNode : list) {
 			String id = parameterMapNode.getStringAttribute("id");
 			String type = parameterMapNode.getStringAttribute("type");
 			Class<?> parameterClass = resolveClass(type);
 			List<XNode> parameterNodes = parameterMapNode.evalNodes("parameter");
-			List<ParameterMapping> parameterMappings = new ArrayList<ParameterMapping>();
+			List<ParameterMapping> parameterMappings = new ArrayList<>();
 			for (XNode parameterNode : parameterNodes) {
 				String property = parameterNode.getStringAttribute("property");
 				String javaType = parameterNode.getStringAttribute("javaType");
@@ -260,6 +278,11 @@ public class XMLMapperBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 解析ResultMap
+	 * @param list
+	 * @throws Exception
+	 */
 	private void resultMapElements(List<XNode> list) throws Exception {
 		for (XNode resultMapNode : list) {
 			try {
@@ -286,7 +309,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 		Boolean autoMapping = resultMapNode.getBooleanAttribute("autoMapping");
 		Class<?> typeClass = resolveClass(type);
 		Discriminator discriminator = null;
-		List<ResultMapping> resultMappings = new ArrayList<ResultMapping>();
+		List<ResultMapping> resultMappings = new ArrayList<>();
 		resultMappings.addAll(additionalResultMappings);
 		List<XNode> resultChildren = resultMapNode.getChildren();
 		for (XNode resultChild : resultChildren) {
@@ -295,7 +318,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 			} else if ("discriminator".equals(resultChild.getName())) {
 				discriminator = processDiscriminatorElement(resultChild, typeClass, resultMappings);
 			} else {
-				List<ResultFlag> flags = new ArrayList<ResultFlag>();
+				List<ResultFlag> flags = new ArrayList<>();
 				if ("id".equals(resultChild.getName())) {
 					flags.add(ResultFlag.ID);
 				}

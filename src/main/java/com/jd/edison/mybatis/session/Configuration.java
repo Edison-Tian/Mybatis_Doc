@@ -159,6 +159,9 @@ public class Configuration {
 	protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");
 
 	protected final Collection<XMLStatementBuilder> incompleteStatements = new LinkedList<>();
+	/**
+	 * 在程序初始化时，可能有一些参照缓存尚未被解析完成，但是解析Mapper时用到了，所以先把这些情况给记录下来
+	 */
 	protected final Collection<CacheRefResolver> incompleteCacheRefs = new LinkedList<>();
 	protected final Collection<ResultMapResolver> incompleteResultMaps = new LinkedList<>();
 	protected final Collection<MethodResolver> incompleteMethods = new LinkedList<>();
@@ -554,6 +557,10 @@ public class Configuration {
 		return keyGenerators.containsKey(id);
 	}
 
+	/**
+	 * 添加缓存，将命名空间与缓存进行绑定
+	 * @param cache
+	 */
 	public void addCache(Cache cache) {
 		caches.put(cache.getId(), cache);
 	}
@@ -642,6 +649,10 @@ public class Configuration {
 		return incompleteCacheRefs;
 	}
 
+	/**
+	 * 添加未初始化的参照缓存
+	 * @param incompleteCacheRef	参照缓存的解析器
+	 */
 	public void addIncompleteCacheRef(CacheRefResolver incompleteCacheRef) {
 		incompleteCacheRefs.add(incompleteCacheRef);
 	}

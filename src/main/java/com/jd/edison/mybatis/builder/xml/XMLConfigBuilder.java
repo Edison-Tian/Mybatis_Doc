@@ -46,7 +46,7 @@ import com.jd.edison.mybatis.transaction.TransactionFactory;
 
 /**
  * XMLConfigBuilder ：负责将mybatis-config.xml配置文件解析成Configuration对象，
- * 共SqlSessonFactoryBuilder使用，创建SqlSessionFactory
+ * 共SqlSessionFactoryBuilder使用，创建SqlSessionFactory
  *
  * @author Clinton Begin
  */
@@ -186,7 +186,8 @@ public class XMLConfigBuilder extends BaseBuilder {
 
 	/**
 	 * 解析插件元素
-	 * @param parent		父节点
+	 *
+	 * @param parent 父节点
 	 * @throws Exception
 	 */
 	private void pluginElement(XNode parent) throws Exception {
@@ -203,6 +204,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
 	/**
 	 * 与解析插件类似，先从别名池中查找，查找不到的话，再通过Classloader来查找
+	 *
 	 * @param context
 	 * @throws Exception
 	 */
@@ -218,6 +220,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
 	/**
 	 * 解析objectWrapperFactory
+	 *
 	 * @param context
 	 * @throws Exception
 	 */
@@ -381,7 +384,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 		String type = context.getStringAttribute("type");
 		Properties props = context.getChildrenAsProperties();
 	  /*在Configuration初始化的时候，会通过以下语句，给JDBC和MANAGED对应的工厂类
-      typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
+	  typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
       typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
       下述的resolveClass(type).newInstance()会创建对应的工厂实例 */
 		TransactionFactory factory = (TransactionFactory) resolveClass(type).newInstance();
@@ -402,8 +405,9 @@ public class XMLConfigBuilder extends BaseBuilder {
 
 	/**
 	 * 解析TypeHandler
-	 * @param parent		父节点
-	 * @throws Exception	异常
+	 *
+	 * @param parent 父节点
+	 * @throws Exception 异常
 	 */
 	private void typeHandlerElement(XNode parent) throws Exception {
 		if (parent != null) {
@@ -432,6 +436,11 @@ public class XMLConfigBuilder extends BaseBuilder {
 		}
 	}
 
+	/**
+	 * 解析Mappers节点
+	 * @param parent		父节点
+	 * @throws Exception
+	 */
 	private void mapperElement(XNode parent) throws Exception {
 		if (parent != null) {
 			for (XNode child : parent.getChildren()) {

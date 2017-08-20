@@ -25,7 +25,8 @@ public class Demo {
 //			}
 //			byte[] JAR_MAGIC = {'P', 'K', 3, 4};
 //			System.out.println(Arrays.equals(JAR_MAGIC,result));
-		} catch (IOException e) {
+
+		} catch (Exception e) {
             e.printStackTrace();
         }
     }
