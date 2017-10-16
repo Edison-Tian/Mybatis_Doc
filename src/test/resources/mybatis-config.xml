@@ -15,7 +15,7 @@
 		<package name="com.jd.edison.demo"/>
 	</typeAliases>
 	<plugins>
-		<plugin interceptor="com.jd.edison.mybatis.Demo">
+		<plugin interceptor="Demo">
 			<property name="a" value="123"/>
 		</plugin>
 	</plugins>-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jd.fms.plough.dao.cg.CGDao">
-	<insert id="insert" parameterType="com.jd.edison.mybatis.Test">
+	<insert id="insert" parameterType="com.jd.mybatis.Test">
 		INSERT INTO t_cg_${po.tableSuffix} (
 			rf_id,
 			rf_type,
